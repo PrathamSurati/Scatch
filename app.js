@@ -4,6 +4,14 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
+const db = require('./config/mongoose-connection');
+const ownersModel = require('./models/owners-model');
+
+const ownersRouter = require('./routes/ownersRouter');
+const productRouter = require('./routes/productRouter');
+const usersRouter = require('./routes/userRouter');
+
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -11,9 +19,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('view engine', 'ejs');
 
 
-app.get("/", (req, res)=>{
-    res.send("Hello World");
-});
+app.use('/owners', ownersRouter);
+app.use('/products', productRouter);
+app.use('/users', usersRouter);
 
 
 app.listen("3000", ()=>{
